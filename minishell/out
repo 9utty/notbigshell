@@ -1,0 +1,64 @@
+NAME			=	minishell$
+HEADER			=	minishell.h$
+$
+CC				=	CC$
+rm				=	rm -rf$
+CFLAGS			=	-Wall -Wextra -Werror$
+#DEBUG			=	-fsanitize=address -fsanitize=leak -g$
+$
+RLDIR			=	$(shell brew --prefix)$
+LIBREADLINE		=	$(RLDIR)/opt/readline/lib$
+$
+INCLUDE_DIRS	=	-I includes -I $(RLDIR)/opt/readline/include$
+LIB_DIR			=	-L$(LIBREADLINE) -lreadline$
+SRC_PATH		=	./src/$
+SRC_PARSER		=	parser/$
+SRC_BUILTIN		=	builtin/$
+SRC_EXECUTE		=	execute/$
+SRC_UTILS		=	utils/$
+OBJ_PATH		=	./obj/$
+$
+PARSER			=$
+$
+BUILTIN			=$
+$
+EXECUTER		=$
+$
+UTILS			=$
+$
+$
+SRC 			=	$(addprefix $(SRC_PATH)$(SRC_PARSER), $(PARSER))	\$
+					$(addprefix $(SRC_PATH)$(SRC_BUILTIN), $(BUILTIN))	\$
+					$(addprefix $(SRC_PATH)$(SRC_EXECUTE), $(EXECUTE))	\$
+					$(addprefix $(SRC_UTILS)$(SRC_UTILS), $(UTILS))		\$
+					src/main.c$
+$
+OBJ				=	$(addprefix $(OBJ_PATH),$(subst .c,.o,$(SRC)))$
+$
+$(OBJ_PATH)%.o	:	$(SRC_PATH)%.c$
+				$(CC) $(CFLAGS) $(INCLUDE_DIRS) -c $< -o $@$
+$
+all				:	$(NAME)$
+$
+$(NAME)			:	$(OBJ_PATH) $(OBJ)$
+				$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lreadline$
+$
+$(OBJ_PATH)		:$
+				mkdir -p $(OBJ_PATH)exec$
+				mkdir -p $(OBJ_PATH)builtin$
+				mkdir -p $(OPJ_PATH)parser$
+				mkdir -p $(OBJ_PATH)utils$
+$
+clean			:$
+				$(RM) obj$
+$
+fclean			:$
+				$(RM) obj$
+				$(RM) $(NAME)$
+$
+re				:$
+				$(RM) obj$
+				$(RM) $(NAME)$
+				make all$
+$
+./PHONY			:	all, clean, fclean, re$
